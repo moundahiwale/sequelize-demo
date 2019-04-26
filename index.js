@@ -1,5 +1,5 @@
 "use strict";
-
+// const User = require('./model/')
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize({
@@ -23,6 +23,9 @@ const User = sequelize.define("user", {
   },
   lastName: {
     type: Sequelize.STRING
+  },
+  nickname: {
+    type: Sequelize.STRING
   }
 });
 
@@ -39,12 +42,17 @@ Project.belongsTo(User);
 User.create(
   {
     firstName: "Jane",
-    Product: { name: "Project 1" }
+    nickname: "test"
+    // Product: { name: "Project 1" }
   },
-  {
-    include: Project
-  }
+  // ,
+  // {
+  //   include: Project
+  // }
 ).then(user => {
-  Project.create({ name: "product", userId: user.id });
+  const project = Project.create({ name: "product", userId: user.id });
 });
 
+User.findAll({
+  include: Project
+}).then(u => console.log(u));
